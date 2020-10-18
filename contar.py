@@ -71,14 +71,19 @@ def comparar_valores(base: str, esquema: str):
     return contadorOK, contadorERROR, cantidad_tablas
 
 def agregar_registro(base: str, esquema: str, cadena: str):
-    with open('resumen.out', mode='a') as resumen:
-        resumen.write(base+'\t'+esquema+'\t'+base+esquema+'\t'+cadena+'\n')
+    with open('contador-archivos-'+base+'-'+esquema+'2.out', mode='a') as resumen:
+        resumen.write(cadena)
 
 def main():
-    print ('main')
-    for file in os.listdir("/mydir"):
-    if file.endswith(".txt"):
-        print(os.path.join("/mydir", file))
+    texto_nombre_db = re.split(r'/', str(sys.argv[1]).rstrip('\n'))
+    base = texto_nombre_db[3]
+    esquema = texto_nombre_db[4]
+    for file in os.listdir(sys.argv[1]):
+        if file.endswith(".csv"):
+            with open(os.path.join(sys.argv[1], file), mode='r') as archivo:
+                lineas = sum(1 for _ in archivo)
+                cadena = ' ' + str(lineas) + ' ./' + file
+                agregar_registro(base, esquema, cadena)
 
 if __name__ == "__main__":
     print('*************************** INICIO ***************************')

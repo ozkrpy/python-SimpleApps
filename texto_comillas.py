@@ -19,9 +19,17 @@ def remover_ultima_coma():
     lista[-1]=item
 
 def escribe_resultado(cadena: str):
-    #print(cadena)
-    with open('resultado.txt', mode='a') as resultado:
-        resultado.write(cadena)
+    tope=2300
+    while(len(cadena)>tope):
+        # print('linea de texto mayor a:', str(tope))
+        post=cadena[tope:]
+        intro=post.find("','")+tope
+        temporal=cadena[:intro+2]+'\n'+cadena[intro+2:]
+        cadena=temporal
+        tope+=2300
+    # print(cadena)
+    with open('resultado.txt', mode='w+') as resultado:
+        resultado.write(cadena[:-1])
     
 def main():   
     global tope
@@ -31,12 +39,13 @@ def main():
             #print(c, end='\r')
             #print(c, tope)
             #cargar_lista(linea.rstrip(), c)
-            cadena = cadena + "'" + linea.rstrip() + "',"
-            if (c>tope):
-                #escribe_resultado(cadena)
-                #lista.append(cadena)
-                cadena=cadena+'\n'
-                tope+=1000
+            if (len(linea)>1):
+                cadena = cadena + "'" + linea.rstrip() + "',"
+                if (c>tope):
+                    #escribe_resultado(cadena)
+                    #lista.append(cadena)
+                    cadena=cadena+'\n'
+                    tope+=1000
     escribe_resultado(cadena.upper())  
         #remover_ultima_coma()
     

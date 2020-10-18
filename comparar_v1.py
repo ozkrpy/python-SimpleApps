@@ -15,7 +15,6 @@ def main():
     base = texto_nombre_db[1]
     texto_esquema = re.split(r'\.', str(texto_nombre_db[2]).rstrip('\n'))
     esquema = texto_esquema[0]
-    print('PROCESANDO:', base.upper(), esquema.upper())
     cargar_diccionario_db()
     cargar_diccionario_archivo()
     correctos, verificar, total = comparar_valores(base, esquema)
@@ -47,25 +46,24 @@ def cargar_diccionario_archivo():
 def comparar_valores(base: str, esquema: str):
     global diccionario_archivo
     global diccionario_db   
-    cantidad_tablas=0
     contadorOK=0
     contadorERROR=0
     d1_keys = set(diccionario_db.keys())
     d2_keys = set(diccionario_archivo.keys())
     shared_keys = d1_keys.intersection(d2_keys)
-    print ('CONTADORES DB:', len(d1_keys), 'FILE:', len(d2_keys))
+    print ('TOTAL DE TABLAS:', len(d1_keys))
+    print ('TOTAL DE LINEAS:', len(d2_keys))
     for tabla in shared_keys:
-        lineas_archivo = 0
         if (diccionario_db[tabla] != 'ERROR_CONTEO'):
             lineas_archivo = int(diccionario_archivo[tabla])-1
             if (int(diccionario_db[tabla]) == lineas_archivo):
-                agregar_registro(base, esquema, tabla+'\t'+diccionario_db[tabla]+'\t'+str(lineas_archivo)+'\tOK'+'\t'+base+esquema+'OK')
+                agregar_registro(base, esquema, tabla+'\t'+diccionario_db[tabla]+'\t'+str(lineas_archivo)+'\tOK'+'\t'+base+esquema[0]+'OK')
                 contadorOK+=1
             else:
-                agregar_registro(base, esquema, tabla+'\t'+diccionario_db[tabla]+'\t'+str(lineas_archivo)+'\tVERIFICAR'+'\t'+base+esquema+'VERIFICAR')
+                agregar_registro(base, esquema, tabla+'\t'+diccionario_db[tabla]+'\t'+str(lineas_archivo)+'\tVERIFICAR'+'\t'+base+esquema[0]+'VERIFICAR')
                 contadorERROR+=1
         else:
-            agregar_registro(base, esquema, tabla+'\t'+diccionario_db[tabla]+'\t'+str(lineas_archivo)+'\tERROR_CONTEO'+'\t'+base+esquema+'ERROR_CONTEO')
+            agregar_registro(base, esquema, tabla+'\t'+diccionario_db[tabla]+'\t'+str(lineas_archivo)+'\tERROR_CONTEO'+'\t'+base+esquema[0]+'ERROR_CONTEO')
             contadorERROR+=1
         cantidad_tablas=contadorOK+contadorERROR
         print('EN PROCESO:', cantidad_tablas, end='\r')
