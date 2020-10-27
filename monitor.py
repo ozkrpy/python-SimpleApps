@@ -16,27 +16,24 @@ conn = psycopg2.connect(
 try:
 	cur = conn.cursor()
 	print('PostgreSQL database version:')
-	cur.execute('SELECT version();')
+	cur.execute('insert into toma_muestras (velocidad_subida, velocidad_bajada) values (1, 1);')
 	db_version = cur.fetchone()
 	print(db_version)
-	# close the communication with the PostgreSQL
-	cur.close()
-
-
-	with open('test.csv', mode='a') as speedcsv:
-		csv_writer = csv.DictWriter(speedcsv, fieldnames=['toma','subida','bajada'])
-		csv_writer.writeheader()
-		while True:
-			time_now = datetime.datetime.now().strftime("%H:%M:%S")
-			downspeed = round((round(s.download())/1048576), 2)
-			upspeed = round((round(s.upload())/1048576), 2)
-			print(f"Toma: {time_now}, descarga: {downspeed} MB/s, subida: {upspeed} MB/s")
-			csv_writer.writerow({
-				'toma': time_now,
-				'subida': downspeed,
-				'bajada': upspeed
-			})
-			time.sleep(60)
+	
+	# with open('test.csv', mode='w') as speedcsv:
+	# 	csv_writer = csv.DictWriter(speedcsv, fieldnames=['toma','subida','bajada'])
+	# 	csv_writer.writeheader()
+	# 	while True:
+	# 		time_now = datetime.datetime.now().strftime("%H:%M:%S")
+	# 		downspeed = round((round(s.download())/1048576), 2)
+	# 		upspeed = round((round(s.upload())/1048576), 2)
+	# 		print(f"Toma: {time_now}, descarga: {downspeed} MB/s, subida: {upspeed} MB/s")
+	# 		csv_writer.writerow({
+	# 			'toma': time_now,
+	# 			'subida': downspeed,
+	# 			'bajada': upspeed
+	# 		})
+	time.sleep(60)
 except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
