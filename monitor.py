@@ -14,11 +14,15 @@ conn = psycopg2.connect(
     user="dbadmin",
     password="areguapgpre")
 try:
+	downspeed = s.download()
+	upspeed = s.upload()
+
 	cur = conn.cursor()
-	print('PostgreSQL database version:')
-	cur.execute('insert into toma_muestras (velocidad_subida, velocidad_bajada) values (1, 1);')
-	db_version = cur.fetchone()
-	print(db_version)
+	
+	cur.execute('insert into toma_muestras (velocidad_subida, velocidad_bajada) values (%s);', (downspeed,upspeed))
+	# cur.execute()
+	conn.commit()
+	#print(db_version)
 	
 	# with open('test.csv', mode='w') as speedcsv:
 	# 	csv_writer = csv.DictWriter(speedcsv, fieldnames=['toma','subida','bajada'])
@@ -33,11 +37,11 @@ try:
 	# 			'subida': downspeed,
 	# 			'bajada': upspeed
 	# 		})
-	time.sleep(60)
+	#time.sleep(60)
 except (Exception, psycopg2.DatabaseError) as error:
         print(error)
-    finally:
-        if conn is not None:
-            conn.close()
-            print('Database connection closed.')
+finally:
+	if conn is not None:
+        	conn.close()
+        	print('Database connection closed.')
 	
