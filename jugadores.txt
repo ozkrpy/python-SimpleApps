@@ -1,0 +1,29 @@
+1,Oz
+2,Daviro
+3,Carlin
+4,Adal
+5,Albert
+6,Arturo
+7,Carlitox
+8,Christhian
+9,Claudio
+10,Cyber
+11,Diego
+12,Cantero
+13,Xavi
+14,Amarilla
+15,Jorch
+16,Trozi
+17,Mono
+18,Manu Caceres
+19,Manu Filartiga
+20,Marcos
+21,Chiri
+22,Rubio
+23,Joyman
+24,Alcides
+25,Refuerzo1
+26,Refuerzo2
+27,Refuerzo3
+28,Refuerzo4
+29,Refuerzo5
